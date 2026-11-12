@@ -1,12 +1,30 @@
-import 'package:material_ui/material_ui.dart';
+import 'package:bloc/bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'bloc/cart_page_bloc.dart';
 import 'cubit/cart_page_cubit.dart';
 import 'riverpod/cart_page_riverpod.dart';
 import 'setstate/cart_page_setstate.dart';
 
+class AppBlocObserver extends BlocObserver {
+  const AppBlocObserver();
+
+  @override
+  void onTransition(
+    Bloc<dynamic, dynamic> bloc,
+    Transition<dynamic, dynamic> transition,
+  ) {
+    super.onTransition(bloc, transition);
+    debugPrint(
+      '[BlocObserver] ${bloc.runtimeType}: '
+      '${transition.currentState} -> ${transition.event} -> ${transition.nextState}',
+    );
+  }
+}
+
 void main() {
+  Bloc.observer = const AppBlocObserver();
   runApp(const ProviderScope(child: CartFourWaysApp()));
 }
 
